@@ -27,8 +27,18 @@ func init() {
 	rootCmd.MarkPersistentFlagRequired("provision-server")
 	rootCmd.MarkPersistentFlagRequired("api-key")
 
+	// Flags for the "new" command
+	newCmd.Flags().StringVarP(&standName, "name", "n", "", "Name of the stand to provision")
+	newCmd.Flags().StringVar(&standFQDN, "fqdn", "", "Fully Qualified Domain Name of the stand to provision")
+	newCmd.Flags().StringVarP(&standUserData, "cloud-config", "f", "", "Path to the cloud-config (user-data) file to use for the stand")
+
+	// TODO: Allow providing either the name or the FQDN, but not both
+	newCmd.MarkFlagRequired("name")
+	newCmd.MarkFlagRequired("cloud-config")
+
 	// rootCmd.AddCommand(createCmd)
 	// 	rootCmd.AddCommand(deleteCmd)
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(newCmd)
 }
