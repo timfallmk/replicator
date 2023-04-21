@@ -6,6 +6,8 @@ import (
 	"sort"
 	"strconv"
 
+	// TODO: Remove this dependency. Hack for terminal wrapping.
+	prettyText "github.com/jedib0t/go-pretty/v6/text"
 	"github.com/pterm/pterm"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -59,7 +61,7 @@ var getCmd = &cobra.Command{
 			netInterfaces += netI + "\n\n"
 		}
 
-		table.Data = append(table.Data, []string{details.Hostname, details.FQDN, ipRange, details.Pool, details.Power, details.Status, netInterfaces, strconv.FormatBool(details.NetBoot), details.Arch, details.OS, details.Kernel, details.PowerType, details.StatusMessage})
+		table.Data = append(table.Data, []string{details.Hostname, details.FQDN, ipRange, details.Pool, details.Power, details.Status, netInterfaces, strconv.FormatBool(details.NetBoot), details.Arch, details.OS, details.Kernel, details.PowerType, prettyText.WrapSoft(details.StatusMessage, 30)})
 		spinnerGet.Success("Got got details after ", spinnerGet.Delay)
 		rendErr := table.Render()
 		if err != nil {

@@ -2,6 +2,7 @@ package provisioner
 
 import (
 	"encoding/base64"
+	"errors"
 	"os"
 )
 
@@ -23,4 +24,19 @@ func UserDataInputFromFile(filePath string) (string, error) {
 		return "", readErr
 	}
 	return encodeUserDataToBase64(userData), nil
+}
+
+func HostnameToFQDN(hostname string, pclient *ProvisionerClient) (string, error) {
+	machineList, err := pclient.ListMachines()
+	if err != nil {
+		return "", err
+	}
+
+	for _, machine := range machineList {
+		if machine.Hostname == hostname {
+			return machine.FQDN, nil
+		}
+	}
+
+	return "", errors.New("No matching node found with hostname: " + hostname)
 }

@@ -25,6 +25,7 @@ require (
 
 require (
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/jedib0t/go-pretty/v6 v6.4.6
 	github.com/juju/collections v1.0.2 // indirect
 	github.com/juju/errors v1.0.0 // indirect
 	github.com/juju/gomaasapi/v2 v2.0.2 // indirect

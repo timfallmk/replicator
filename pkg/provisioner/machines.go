@@ -254,3 +254,41 @@ func (pclient *ProvisionerClient) DeployNode(hostname string, userData string) (
 
 	return machine, nil
 }
+
+func (pclient *ProvisionerClient) setPowerControl(machine *maasEntity.Machine) error {
+	// Set the power type "AMT"
+	_, err := pclient.Client.Machine.Update(machine.SystemID, &maasEntity.MachineParams{
+		PowerType: "amt",
+	}, map[string]string{
+		"power_type":     "amt",
+		"power_address":  "",
+		"power_password": "SpaceIsCold!0",
+	})
+	return err
+}
+
+func (pclient *ProvisionerClient) RemoveMachine(hostname string) error {
+	// Get systemID from hostname
+	systemID, err := pclient.nodeHostnameToSystemID(hostname)
+	if err != nil {
+		return err
+	}
+	logrus.Debugf("SystemID: %v", systemID)
+
+	// Remove node
+	err = pclient.Client.Machine.Delete(systemID)
+	return err
+}
+
+func (pclient *ProvisionerClient) EraseMachine(hostname string) error {
+	// Get systemID from hostname
+	systemID, err := pclient.nodeHostnameToSystemID(hostname)
+	if err != nil {
+		return err
+	}
+	logrus.Debugf("SystemID: %v", systemID)
+
+	// Erase node
+	err = pclient.Client.Machines.Release([]string{systemID}, "")
+	return err
+}

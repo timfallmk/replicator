@@ -11,6 +11,8 @@ import (
 func main() {
 	// Debug
 	// logrus.SetLevel(logrus.DebugLevel)
+	// Info
+	logrus.SetLevel(logrus.InfoLevel)
 	err := cmd.Execute()
 	if err != nil {
 		logrus.Fatal(err)
