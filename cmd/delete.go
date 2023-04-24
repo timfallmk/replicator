@@ -29,8 +29,8 @@ var deleteCmd = &cobra.Command{
 		}
 
 		pterm.DefaultBigText.WithLetters(putils.LettersFromStringWithStyle("WARNING", pterm.FgRed.ToStyle())).Render()
-		pterm.DefaultCenter.Println("This will delete the stand and remove it completely from the MAAS server!")
-		pterm.DefaultCenter.Println("If you want to only erase the machine and return it to it's default state\n use the 'erase' command instead.")
+		pterm.DefaultBasicText.Println("This will delete the stand and remove it completely from the MAAS server!")
+		pterm.DefaultBasicText.Println("If you want to only erase the machine and return it to it's default state\n use the 'erase' command instead.")
 
 		confimed, err := pterm.DefaultInteractiveContinue.WithOptions(
 			[]string{"continue", "abort"},

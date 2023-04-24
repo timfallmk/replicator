@@ -1,3 +1,12 @@
 examples/demo.gif filter=lfs diff=lfs merge=lfs -text
 examples/demo.mp4 filter=lfs diff=lfs merge=lfs -text
 examples/demo.webm filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+examples/get.gif filter=lfs diff=lfs merge=lfs -text
+examples/get.mp4 filter=lfs diff=lfs merge=lfs -text
+examples/get.tape filter=lfs diff=lfs merge=lfs -text
+examples/get.webm filter=lfs diff=lfs merge=lfs -text
+examples/list.gif filter=lfs diff=lfs merge=lfs -text
+examples/list.mp4 filter=lfs diff=lfs merge=lfs -text
+examples/list.tape filter=lfs diff=lfs merge=lfs -text
+examples/list.webm filter=lfs diff=lfs merge=lfs -text
