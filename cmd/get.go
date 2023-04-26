@@ -43,7 +43,7 @@ var getCmd = &cobra.Command{
 
 		// TODO: This is a hack to get the table to display properly. Clean this up.
 		table := pterm.DefaultTable.WithBoxed().WithHasHeader().WithHasHeader().WithRowSeparator("-").WithHeaderRowSeparator("-").WithData(pterm.TableData{
-			{"Hostname", "FQDN", "IP", "Pool", "Power", "Status", "NetworkInterfaces", "NetBoot", "Arch", "OS", "Kernel", "Power Type", "Status Message"},
+			{"Hostname", "ID", "FQDN", "IP", "Pool", "Power", "Status", "NetworkInterfaces", "NetBoot", "Arch", "OS", "Kernel", "Power Type", "Status Message"},
 		})
 
 		// Make sure the IP addresses are in order
@@ -61,7 +61,7 @@ var getCmd = &cobra.Command{
 			netInterfaces += netI + "\n\n"
 		}
 
-		table.Data = append(table.Data, []string{details.Hostname, details.FQDN, ipRange, details.Pool, details.Power, details.Status, netInterfaces, strconv.FormatBool(details.NetBoot), details.Arch, details.OS, details.Kernel, details.PowerType, prettyText.WrapSoft(details.StatusMessage, 30)})
+		table.Data = append(table.Data, []string{details.Hostname, details.SystemID, details.FQDN, ipRange, details.Pool, details.Power, details.Status, netInterfaces, strconv.FormatBool(details.NetBoot), details.Arch, details.OS, details.Kernel, details.PowerType, prettyText.WrapSoft(details.StatusMessage, 30)})
 		spinnerGet.Success("Got got details after ", spinnerGet.Delay)
 		rendErr := table.Render()
 		if err != nil {

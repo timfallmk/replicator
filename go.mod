@@ -14,6 +14,8 @@ require (
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/gookit/color v1.5.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/juju/gomaasapi/v2 v2.0.2 // indirect
+	github.com/juju/mgo/v2 v2.0.2 // indirect
 	github.com/lithammer/fuzzysearch v1.1.5 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
@@ -28,11 +30,11 @@ require (
 	github.com/jedib0t/go-pretty/v6 v6.4.6
 	github.com/juju/collections v1.0.2 // indirect
 	github.com/juju/errors v1.0.0 // indirect
-	github.com/juju/gomaasapi/v2 v2.0.2 // indirect
 	github.com/juju/loggo v1.0.0 // indirect
-	github.com/juju/mgo/v2 v2.0.2 // indirect
 	github.com/juju/schema v1.0.1 // indirect
 	github.com/juju/version v0.0.0-20210303051006-2015802527a8 // indirect
 	github.com/spf13/cobra v1.7.0
 	golang.org/x/sys v0.7.0 // indirect
 )
+
+// replace github.com/maas/gomaasclient => /Users/tfall/Code/gomaasclient
