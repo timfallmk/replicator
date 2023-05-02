@@ -49,22 +49,22 @@ release:
     assets:
       links:
       - name: Linux-x86
-        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/$CI_PROJECT_NAME_linux_386?job=compile
+        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/${CI_PROJECT_NAME}_linux_386?job=compile
         link_type: package
       - name: Linux-x64
-        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/$CI_PROJECT_NAME_linux_amd64?job=compile
+        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/${CI_PROJECT_NAME}_linux_amd64?job=compile
         link_type: package
       - name: Windows-x86
-        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/$CI_PROJECT_NAME_windows_386.exe?job=compile
+        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/${CI_PROJECT_NAME}_windows_386.exe?job=compile
         link_type: package
       - name: Windows-x64
-        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/$CI_PROJECT_NAME_windows_amd64.exe?job=compile
+        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/${CI_PROJECT_NAME}_windows_amd64.exe?job=compile
         link_type: package
       - name: Darwin-amd64
-        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/$CI_PROJECT_NAME_darwin_amd64?job=compile
+        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/${CI_PROJECT_NAME}_darwin_amd64?job=compile
         link_type: package
       - name: Darwin-arm64
-        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/$CI_PROJECT_NAME_darwin_arm64?job=compile
+        url: $CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_SHA/raw/bin/${CI_PROJECT_NAME}_darwin_arm64?job=compile
         link_type: package
 include:
 - template: Security/Secret-Detection.gitlab-ci.yml
