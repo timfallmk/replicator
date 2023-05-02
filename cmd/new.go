@@ -36,19 +36,19 @@ var newCmd = &cobra.Command{
 			standFQDN = standName + ".ad.astraspace.com"
 		}
 
-		progressBar, err := pterm.DefaultProgressbar.WithTotal(5).WithTitle("Provisioning new stand").Start()
-		// newSpinner, err := pterm.DefaultSpinner.Start()
+		// progressBar, err := pterm.DefaultProgressbar.WithTotal(5).WithTitle("Provisioning new stand").Start()
+		newSpinner, err := pterm.DefaultSpinner.WithRemoveWhenDone(true).Start()
 		if err != nil {
 			logrus.Error(err)
 		}
-		progressBar.UpdateTitle("Starting deployment process...")
-		// newSpinner.UpdateText("Starting deployment process...")
+		// progressBar.UpdateTitle("Starting deployment process...")
+		newSpinner.UpdateText("Starting deployment process...")
 
 		// Deployment step through process
 		// Get potential new candidates
 		newList, err := client.FindNewMachines()
 		if err != nil {
-			// newSpinner.Fail("Failed to find any new machines")
+			newSpinner.Fail("Failed to find any new machines")
 			logrus.Fatal(err)
 		}
 		newListNames := make([]string, 0)
@@ -56,20 +56,20 @@ var newCmd = &cobra.Command{
 			newListNames = append(newListNames, newList[n].Hostname)
 		}
 		if len(newListNames) == 0 {
-			// newSpinner.Fail("No fresh machines found")
+			newSpinner.Fail("No fresh machines found")
 			logrus.Fatal("No fresh machines found")
 		}
 
 		// TODO: Check if already exists
 
-		// newSpinner.Stop()
+		newSpinner.Stop()
 		pterm.Success.Println("Found fresh machines")
-		progressBar.Increment()
+		// progressBar.Increment()
 		newSelectedMachine, err := pterm.DefaultInteractiveSelect.WithOptions(
 			newListNames,
 		).Show()
 		if err != nil {
-			// newSpinner.Fail("Failed to select a machine")
+			newSpinner.Fail("Failed to select a machine")
 			logrus.Fatal(err)
 		}
 		pterm.Info.Printf("Selected machine %s\n", newSelectedMachine)
@@ -91,82 +91,83 @@ var newCmd = &cobra.Command{
 		// DEBUG
 		// newMachine := newList[0]
 
-		progressBar.UpdateTitle("Comissioning machine...")
+		// progressBar.UpdateTitle("Comissioning machine...")
 		// comissionSpinner, err := pterm.DefaultSpinner.Start("Comissioning machine...")
 		if err != nil {
 			logrus.Error(err)
 		}
-		// comissionSpinner.UpdateText("Setting hostname...\n")
+		newSpinner.Start()
+		newSpinner.UpdateText("Setting hostname...\n")
 		// Set the hostname
 		logrus.Debugf("Attempting to set hostname to %s\n", standFQDN)
 		err = client.SetHostname(selectedMachine.SystemID, standFQDN)
 		if err != nil {
-			// comissionSpinner.Fail("Failed to set hostname\n")
+			newSpinner.Fail("Failed to set hostname\n")
 			logrus.Fatal(err)
 		}
-		// comissionSpinner.Success("Hostname set successfully\n")
+		newSpinner.Success("Hostname set successfully\n")
 
-		// comissionSpinner.UpdateText("Setting power type and comissioning...\n")
+		newSpinner.UpdateText("Setting power type and comissioning...\n")
 		// Comission
 		// TODO: Get the updated stand information to make sure it matches what we expect
 		node, comissionErr := client.CommissionNode(standFQDN)
 		if comissionErr != nil {
-			// comissionSpinner.Fail("Failed to comission node\n")
+			newSpinner.Fail("Failed to comission node\n")
 			logrus.Fatal(comissionErr)
 		}
 
-		// comissionSpinner.UpdateText("Waiting for comissioning to complete...\n")
-		// comissionSpinner.Start()
+		newSpinner.UpdateText("Waiting for comissioning to complete...\n")
+		// 		// newSpinner.Start()
 		// Wait for comissioning to complete
 		comissionWaitErr := client.WaitForComissioned(node)
 		if comissionWaitErr != nil {
-			// comissionSpinner.Fail("Failed to get a successful status from the comissioning process\n")
+			newSpinner.Fail("Failed to get a successful status from the comissioning process\n")
 			logrus.Fatal(comissionWaitErr)
 		}
 		pterm.Success.Println("Comissioning completed successfully")
-		progressBar.Increment()
-		// comissionSpinner.Success("Comissioning completed successfully\n")
-		// comissionSpinner.Stop()
+		// progressBar.Increment()
+		newSpinner.Success("Comissioning completed successfully\n")
+		// 		// newSpinner.Stop()
 
 		// Arbitrary wait until machine updates state
 		// TODO: Remove this
-		// waitSpinner, err := pterm.DefaultSpinner.WithRemoveWhenDone(true).Start("Waiting for state to settle...")
-		progressBar.UpdateTitle("Waiting for state to settle...")
+		// newSpinner, err := pterm.DefaultSpinner.WithRemoveWhenDone(true).Start("Waiting for state to settle...")
+		// progressBar.UpdateTitle("Waiting for state to settle...")
 		if err != nil {
 			logrus.Error(err)
 		}
 		time.Sleep(20 * time.Second)
 		pterm.Success.Println("State settled")
-		progressBar.Increment()
-		// waitSpinner.Success("Time elapsed\n")
-		// waitSpinner.Stop()
+		// progressBar.Increment()
+		newSpinner.Success("Time elapsed\n")
+		// 		// newSpinner.Stop()
 
-		progressBar.UpdateTitle("Deploying node...")
+		// progressBar.UpdateTitle("Deploying node...")
 		// deploySpinner, err := pterm.DefaultSpinner.Start("Comissioning machine...")
 		if err != nil {
 			logrus.Error(err)
 		}
-		// deploySpinner.UpdateText("Deploying node...\n")
+		newSpinner.UpdateText("Deploying node...\n")
 		// Deploy
 		_, deployErr := client.DeployNode(standFQDN, standUserData)
 		if deployErr != nil {
-			// deploySpinner.Fail("Failed to deploy node\n")
+			newSpinner.Fail("Failed to deploy node\n")
 			logrus.Fatal(deployErr)
 		}
 
-		progressBar.Increment()
-		progressBar.UpdateTitle("Waiting for deployment to complete and stand to be ready...")
-		// deploySpinner.UpdateText("Waiting for deployment to complete and stand to be ready...\n")
+		// progressBar.Increment()
+		// progressBar.UpdateTitle("Waiting for deployment to complete and stand to be ready...")
+		newSpinner.UpdateText("Waiting for deployment to complete and stand to be ready...\n")
 		// Wait for deployment to complete
 		deployWaitErr := client.WaitForReady(node)
 		if deployWaitErr != nil {
-			// deploySpinner.Fail("Failed to reach \"Ready\" state\n")
+			newSpinner.Fail("Failed to reach \"Ready\" state\n")
 			logrus.Fatal(deployWaitErr)
 		}
 
 		pterm.Success.Println("Stand deployed successfully")
-		progressBar.Increment()
-		// deploySpinner.Success("Stand deployed successfully\n")
-		// deploySpinner.Stop()
+		// progressBar.Increment()
+		newSpinner.Success("Stand deployed successfully\n")
+		newSpinner.Stop()
 	},
 }

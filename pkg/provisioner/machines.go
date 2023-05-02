@@ -232,7 +232,7 @@ func (pclient *ProvisionerClient) isComissioned(machine *maasEntity.Machine) boo
 }
 
 func (pclient *ProvisionerClient) isReady(machine *maasEntity.Machine) bool {
-	return machine.StatusName == "Ready"
+	return machine.StatusName == "Deployed"
 }
 
 func (pclient *ProvisionerClient) WaitForComissioned(machine *maasEntity.Machine) error {
@@ -263,6 +263,7 @@ func (pclient *ProvisionerClient) WaitForReady(machine *maasEntity.Machine) erro
 	ready := make(chan bool, 1)
 	go func() {
 		for {
+			machine, _ := pclient.Client.Machine.Get(machine.SystemID)
 			if pclient.isReady(machine) {
 				ready <- true
 				return
@@ -308,6 +309,8 @@ func (pclient *ProvisionerClient) DeployNode(hostname string, userData string) (
 		UserData:     encodedUserData,
 		DistroSeries: "jammy",
 		HWEKernel:    "hwe-22.04-lowlatency-edge",
+		// DistroSeries: "focal",
+		// HWEKernel:    "hwe-20.04-lowlatency-edge",
 		// TODO: Hadware Sync is missing from the API library
 	}
 
