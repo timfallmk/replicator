@@ -202,7 +202,10 @@ func (pclient *ProvisionerClient) CommissionNode(hostname string) (*maasEntity.M
 	}
 	logrus.Debugf("SystemID: %v", systemID)
 
-	comissionParameters := maasEntity.MachineCommissionParams{}
+    comissionParameters := maasEntity.MachineCommissionParams{
+        // 1 for true apparently. Why is this not a bool?
+        SkipNetworking: 1,
+    }
 
 	// Set power control
 	// Get machine entry
